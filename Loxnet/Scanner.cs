@@ -196,7 +196,7 @@ public class Scanner
     {
         while (IsAlphaNumeric(Peek())) Advance();
 
-        string text = source.Substring(start, current);
+        string text = source.Substring(start, current - start);
         bool isKeyword = keywords.TryGetValue(text, out TokenType type);
         if (isKeyword == false) type = IDENTIFIER;
         AddToken(type);
