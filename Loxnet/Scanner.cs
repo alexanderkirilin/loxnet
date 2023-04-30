@@ -213,6 +213,4 @@ public class Scanner
     {
         return IsAlpha(c) || IsDigit(c);
     }
-
-
 }
