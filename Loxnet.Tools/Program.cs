@@ -7,7 +7,7 @@ public static class GenerateAst
         if (args.Length != 1)
         {
             Console.Error.WriteLine("Usage: generate_ast <output directory>");
-            return (int) ExitCode.EX_USAGE;
+            return (int) 64; // TODO: do something about exit code file
         }
 
         string outputDir = args[0];
