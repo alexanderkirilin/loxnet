@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loxnet", "Loxnet\Loxnet.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loxnet.Tests", "Loxnet.Tests\Loxnet.Tests.csproj", "{B4C402F9-2511-47D6-9167-C47AA95FC36F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loxnet.Tools", "Loxnet.Tools\Loxnet.Tools.csproj", "{8A6A04B3-6B5F-406F-9966-56D38D19F4BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{B4C402F9-2511-47D6-9167-C47AA95FC36F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4C402F9-2511-47D6-9167-C47AA95FC36F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4C402F9-2511-47D6-9167-C47AA95FC36F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A6A04B3-6B5F-406F-9966-56D38D19F4BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A6A04B3-6B5F-406F-9966-56D38D19F4BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A6A04B3-6B5F-406F-9966-56D38D19F4BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A6A04B3-6B5F-406F-9966-56D38D19F4BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

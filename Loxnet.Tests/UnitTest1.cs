@@ -43,6 +43,7 @@ public class Tests
         {
             Assert.That(tokens[i] == expectedTokens[i]);
         }
-        
     }
+    
+    // TODO: test using all scanner tokens
 }

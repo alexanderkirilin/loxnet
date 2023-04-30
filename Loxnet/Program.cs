@@ -1,10 +1,8 @@
-﻿using System.Diagnostics;
-using System.Globalization;
-using static Loxnet.Lox;
+﻿using static Loxnet.Lox;
 
 namespace Loxnet;
 
-public class Program
+public static class Program
 {
     public static int Main(string[] args)
     {
