@@ -10,7 +10,8 @@ public static class Program
         {
             Console.WriteLine("Usage: jlox [script]");
             return (int) ExitCode.EX_USAGE;
-        } else if (args.Length == 1)
+        } 
+        else if (args.Length == 1)
         {
             RunFile(args[0]);
         }

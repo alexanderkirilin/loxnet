@@ -15,7 +15,7 @@ public static class GenerateAst
         {
             "Binary   : Expr left, Token op, Expr right",
             "Grouping : Expr expression",
-            "Literal  : Object value",
+            "Literal  : Object? value",
             "Unary    : Token op, Expr right"
         });
 
@@ -34,7 +34,7 @@ public static class GenerateAst
         using StreamWriter writer = File.CreateText(path);
         writer.WriteLine("using Loxnet;" + "\n");
         writer.WriteLine("namespace Loxnet;" + "\n");
-        writer.WriteLine("abstract class " + baseName + "\n" + "{ ");
+        writer.WriteLine("public abstract class " + baseName + "\n" + "{ ");
         
         DefineVisitor(writer, baseName, types);
         
@@ -55,10 +55,10 @@ public static class GenerateAst
 
     private static void DefineType(StreamWriter writer, string baseName, string className, string fieldList)
     {
-        writer.WriteLine("\t" + "public class " + className + " {");
+        writer.WriteLine("\t" + "public class " + className + " : Expr" + "\n" + "\t" + "{");
         
         // Constructor
-        writer.WriteLine("\t\t" + className + "(" + fieldList + ")" + "\n" + "\t\t" + "{");
+        writer.WriteLine("\t\t" + "public " + className + "(" + fieldList + ")" + "\n" + "\t\t" + "{");
         
         // Store parameters in fields
         string[] fields = fieldList.Split(", ");
@@ -75,12 +75,12 @@ public static class GenerateAst
         writer.WriteLine();
         foreach (string field in fields)
         {
-            writer.WriteLine("\t\t" + "readonly " + field + ";");
+            writer.WriteLine("\t\t" + "public readonly " + field + ";");
         }
         
         // Visitor pattern
         writer.WriteLine();
-        writer.WriteLine("\t\t" + "public T Accept<T>(Visitor<T> visitor)" + "\n" + "\t\t" + "{");
+        writer.WriteLine("\t\t" + "public override T Accept<T>(Visitor<T> visitor)" + "\n" + "\t\t" + "{");
         writer.WriteLine("\t\t\t" + "return visitor.Visit" + className + baseName + "(this);");
         writer.WriteLine("\t\t" + "}" + "\n");
         

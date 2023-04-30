@@ -2,10 +2,10 @@ namespace Loxnet;
 
 public class Token
 {
-    private readonly TokenType type;
-    private readonly string lexeme;
-    private readonly Object? literal;
-    private readonly int line;
+    public readonly TokenType type;
+    public readonly string lexeme;
+    public readonly Object? literal;
+    public readonly int line;
 
     public Token(TokenType type, string lexeme, Object? literal, int line)
     {
