@@ -39,9 +39,9 @@ public class Tests
         var scanner = new Scanner(testString);
         var tokens = scanner.ScanTokens();
         
-        Assert.That(tokens is not null);
+        Assert.NotNull(tokens);
         Assert.That(tokens.Count == expectedTokens.Count);
-
+        
         for (var i = 0; i < expectedTokens.Count; i++)
         {
             Assert.That(tokens[i] == expectedTokens[i]);
