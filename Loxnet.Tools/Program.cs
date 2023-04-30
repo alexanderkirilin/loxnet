@@ -34,7 +34,9 @@ public static class GenerateAst
         using StreamWriter writer = File.CreateText(path);
         writer.WriteLine("using Loxnet;" + "\n");
         writer.WriteLine("namespace Loxnet;" + "\n");
-        writer.WriteLine("class " + baseName + "\n" + "{ ");
+        writer.WriteLine("abstract class " + baseName + "\n" + "{ ");
+        
+        DefineVisitor(writer, baseName, types);
         
         // AST classes
         foreach (string type in types)
@@ -42,8 +44,10 @@ public static class GenerateAst
             string className = type.Split(":")[0].Trim();
             string fields = type.Split(":")[1].Trim();
             DefineType(writer, baseName, className, fields);
-            
         }
+        
+        // The base accept() method
+        writer.WriteLine("\t" + "public abstract T Accept<T>(Visitor<T> visitor);");
         
         writer.WriteLine("}");
         writer.Close();
@@ -51,7 +55,7 @@ public static class GenerateAst
 
     private static void DefineType(StreamWriter writer, string baseName, string className, string fieldList)
     {
-        writer.WriteLine("\t" + "class " + className + " {");
+        writer.WriteLine("\t" + "public class " + className + " {");
         
         // Constructor
         writer.WriteLine("\t\t" + className + "(" + fieldList + ")" + "\n" + "\t\t" + "{");
@@ -72,6 +76,25 @@ public static class GenerateAst
         foreach (string field in fields)
         {
             writer.WriteLine("\t\t" + "readonly " + field + ";");
+        }
+        
+        // Visitor pattern
+        writer.WriteLine();
+        writer.WriteLine("\t\t" + "public T Accept<T>(Visitor<T> visitor)" + "\n" + "\t\t" + "{");
+        writer.WriteLine("\t\t\t" + "return visitor.Visit" + className + baseName + "(this);");
+        writer.WriteLine("\t\t" + "}" + "\n");
+        
+        writer.WriteLine("\t" + "}" + "\n");
+    }
+
+    private static void DefineVisitor(StreamWriter writer, string baseName, List<string> types)
+    {
+        writer.WriteLine("\t" + "public interface Visitor<T>" + "\n" + "\t" + "{");
+
+        foreach (string type in types)
+        {
+            string typeName = type.Split(":")[0].Trim();
+            writer.WriteLine("\t\t" + "public T Visit" + typeName + baseName + "(" + typeName + " " + baseName.ToLower() + ");");
         }
         
         writer.WriteLine("\t" + "}" + "\n");
