@@ -2,13 +2,16 @@ namespace Loxnet;
 
 public static class Lox
 {
+    private static readonly Interpreter interpreter = new();
     private static bool _hadError = false;
+    private static bool _hadRuntimeError = false;
     
     public static void RunFile(string path)
     {
         string text = File.ReadAllText(path);
         Run(text);
         if (_hadError) Environment.Exit((int) ExitCode.EX_DATAERR);
+        if (_hadRuntimeError) Environment.Exit((int) ExitCode.EX_SOFTWARE);
     }
 
     public static void RunPrompt()
@@ -38,6 +41,8 @@ public static class Lox
 
         if (_hadError) return;
         
+        interpreter.Interpret(expression);
+        
         Console.WriteLine(new AstPrinter().Print(expression));
     }
 
@@ -56,6 +61,12 @@ public static class Lox
         {
             Report(token.line, " at '" + token.lexeme + "'", message);
         }
+    }
+
+    public static void RuntimeError(Interpreter.RuntimeError error)
+    {
+        Console.Error.WriteLine(error.Message + '\n' + "[line" + error.token.line + "]");
+        _hadRuntimeError = true;
     }
 
     private static void Report(int line, string where, string message)

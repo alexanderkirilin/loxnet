@@ -4,9 +4,7 @@ namespace Loxnet;
 
 public class Parser
 {
-    private class ParseError : SystemException
-    {
-    };
+    private class ParseError : SystemException { }
 
     private readonly List<Token> tokens;
     private int current = 0;
