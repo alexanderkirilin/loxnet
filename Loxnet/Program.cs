@@ -1,10 +1,8 @@
-﻿using System.Diagnostics;
-using System.Globalization;
-using static Loxnet.Lox;
+﻿using static Loxnet.Lox;
 
 namespace Loxnet;
 
-public class Program
+public static class Program
 {
     public static int Main(string[] args)
     {
@@ -12,7 +10,8 @@ public class Program
         {
             Console.WriteLine("Usage: jlox [script]");
             return (int) ExitCode.EX_USAGE;
-        } else if (args.Length == 1)
+        } 
+        else if (args.Length == 1)
         {
             RunFile(args[0]);
         }
