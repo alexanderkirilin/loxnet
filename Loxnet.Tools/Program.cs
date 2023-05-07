@@ -13,15 +13,24 @@ public static class GenerateAst
         string outputDir = args[0];
         DefineAst(outputDir, "Expr", new List<string>
         {
+            "Assign   : Token name, Expr value",
             "Binary   : Expr left, Token op, Expr right",
             "Grouping : Expr expression",
             "Literal  : Object? value",
-            "Unary    : Token op, Expr right"
+            "Unary    : Token op, Expr right",
+            "Variable : Token name"
+        });
+
+        DefineAst(outputDir, "Stmt", new List<String>
+        {
+            "Expression : Expr expression",
+            "Print      : Expr expression",
+            "Var        : Token name, Expr initializer"
         });
 
         return 0;
     }
-
+    
     private static void DefineAst(string outputDir, string baseName, List<string> types)
     {
         string path = outputDir + "/" + baseName + ".cs";
@@ -55,7 +64,7 @@ public static class GenerateAst
 
     private static void DefineType(StreamWriter writer, string baseName, string className, string fieldList)
     {
-        writer.WriteLine("\t" + "public class " + className + " : Expr" + "\n" + "\t" + "{");
+        writer.WriteLine("\t" + "public class " + className + " : " + baseName + "\n" + "\t" + "{");
         
         // Constructor
         writer.WriteLine("\t\t" + "public " + className + "(" + fieldList + ")" + "\n" + "\t\t" + "{");

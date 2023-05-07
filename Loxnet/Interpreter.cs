@@ -1,15 +1,18 @@
 namespace Loxnet;
 using static Loxnet.TokenType;
 
-public class Interpreter : Expr.Visitor<object>
+public class Interpreter : Expr.Visitor<object>, Stmt.Visitor<object>
 {
+    private Environment environment = new Environment();
 
-    public void Interpret(Expr expression)
+    public void Interpret(List<Stmt> statements)
     {
         try
         {
-            object value = Evaluate(expression);
-            Console.WriteLine(Stringify(value));
+            foreach (Stmt statement in statements)
+            {
+                Execute(statement);
+            }
         }
         catch (RuntimeError error)
         {
@@ -36,6 +39,11 @@ public class Interpreter : Expr.Visitor<object>
         }
 
         return null;
+    }
+
+    public object VisitVariableExpr(Expr.Variable expr)
+    {
+        return environment.Get(expr.name);
     }
 
     public object? VisitGroupingExpr(Expr.Grouping expr)
@@ -97,6 +105,36 @@ public class Interpreter : Expr.Visitor<object>
     private object? Evaluate(Expr expr)
     {
         return expr.Accept(this);
+    }
+
+    private void Execute(Stmt stmt)
+    {
+        stmt.Accept(this);
+    }
+
+    public object VisitExpressionStmt(Stmt.Expression stmt)
+    {
+        Evaluate(stmt.expression);
+        return null;
+    }
+
+    public object VisitPrintStmt(Stmt.Print stmt)
+    {
+        object? value = Evaluate(stmt.expression);
+        Console.WriteLine(Stringify(value));
+        return null;
+    }
+
+    public object VisitVarStmt(Stmt.Var stmt)
+    {
+        object value = null;
+        if (stmt.initializer != null)
+        {
+            value = Evaluate(stmt.initializer);
+        }
+
+        environment.Define(stmt.name.lexeme, value);
+        return null;
     }
 
     private bool IsTruthy(object? obj)

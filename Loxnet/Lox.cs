@@ -1,4 +1,5 @@
 namespace Loxnet;
+using System = System;
 
 public static class Lox
 {
@@ -10,8 +11,8 @@ public static class Lox
     {
         string text = File.ReadAllText(path);
         Run(text);
-        if (_hadError) Environment.Exit((int) ExitCode.EX_DATAERR);
-        if (_hadRuntimeError) Environment.Exit((int) ExitCode.EX_SOFTWARE);
+        if (_hadError) System::Environment.Exit((int) ExitCode.EX_DATAERR);
+        if (_hadRuntimeError) System::Environment.Exit((int) ExitCode.EX_SOFTWARE);
     }
 
     public static void RunPrompt()
@@ -37,13 +38,13 @@ public static class Lox
             tokens.Add(token);
         }
 
-        Expr expression = new Parser(tokens).Parse();
+        List<Stmt> statements = new Parser(tokens).Parse();
 
         if (_hadError) return;
         
-        interpreter.Interpret(expression);
+        interpreter.Interpret(statements);
         
-        Console.WriteLine(new AstPrinter().Print(expression));
+        //Console.WriteLine(new AstPrinter().Print(expression));
     }
 
     public static void Error(int line, string message)
